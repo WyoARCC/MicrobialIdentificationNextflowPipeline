@@ -34,7 +34,9 @@ process TrimSequences_PE {
 		path InputRead1              // Input Read File
                 path InputRead2              // Input Read File 
 		val SampleName               // Name of the Sample (PE)
-
+		val headcrop		     // Value of HEADCROP
+		val trailing		     // Value of TRAILING
+		val minlenPE		     // Value of MINLEN (PE)
 
         output:
                path "${SampleName}.1P.fastq"
@@ -50,7 +52,7 @@ process TrimSequences_PE {
 		module load miniconda3
 		conda activate /pfs/tc1/project/arcc-students/bio2
 
-                trimmomatic PE -threads ${Threads} ${InputRead1} ${InputRead2} ${SampleName}.1P.fastq ${SampleName}.1UP.fastq ${SampleName}.2P.fastq ${SampleName}.2UP.fastq HEADCROP:10 TRAILING:20 MINLEN:60
+                trimmomatic PE -threads ${Threads} ${InputRead1} ${InputRead2} ${SampleName}.1P.fastq ${SampleName}.1UP.fastq ${SampleName}.2P.fastq ${SampleName}.2UP.fastq HEADCROP:${headcrop} TRAILING:${trailing} MINLEN:${minlenPE}
 
                 """
 }
@@ -62,7 +64,7 @@ process TrimSequences_SE {
                 val Threads                  // Number of threads
                 path LongRead                // Long Read File
                 val SampleName               // Name of the Sample (SE)
-
+		val minlenSE
 
         output:
                path "${SampleName}longtrim.fastq"
@@ -70,7 +72,7 @@ process TrimSequences_SE {
         script:
             	"""
 
-                trimmomatic SE -threads ${Threads} -phred33 ${LongRead} ${SampleName}longtrim.fastq MINLEN:200
+                trimmomatic SE -threads ${Threads} -phred33 ${LongRead} ${SampleName}longtrim.fastq MINLEN:${minlenSE}
 
                 """
 }
@@ -219,8 +221,8 @@ workflow {
 	uncomFiles = channel.fromPath (params.uncompressed) 
 	fastqcRun(uncomFiles) 
 
-	TrimSequences_PE (params.Threads, params.Read_1, params.Read_2, params.samplename) 
-	TrimSequences_SE (params.Threads, params.longread, params.samplename) 
+	TrimSequences_PE (params.Threads, params.Read_1, params.Read_2, params.samplename, params.headcrop, params.trailing, params.minlenPE) 
+	TrimSequences_SE (params.Threads, params.longread, params.samplename, params.minlenSE) 
 	Unicycler_Hybrid_Assembly (TrimSequences_PE.out[0], TrimSequences_PE.out[1], TrimSequences_SE.out[0], params.Threads, params.output) 
 	quastRun (Unicycler_Hybrid_Assembly.out.contigs, params.output, params.Threads, params.Read_1, params.Read_2, params.longread) 
 	blast1 (params.Threads, Unicycler_Hybrid_Assembly.out.contigs, params.blast_result_1) 
