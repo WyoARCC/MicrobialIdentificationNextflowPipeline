@@ -129,6 +129,9 @@ process blast1 {
 		val Threads
 		file data
 		val output
+		val refbase
+		val alignment
+		val maxseqs
 	
 	output: 
 		stdout
@@ -139,7 +142,7 @@ process blast1 {
 		module load gcc/7.3.0
 		module load blast-plus/2.10.0-py27
 		
-		blastn -num_threads "${Threads}" -query "${data}" -out "${output}" -db ref_prok_rep_genomes -outfmt "6 qseqid sscinames qlen length pident bitscore" -max_target_seqs 5
+		blastn -num_threads "${Threads}" -query "${data}" -out "${output}" -db "${refbase} -outfmt "${alignment} -max_target_seqs "${maxseqs}"
 		"""
 }
 
@@ -150,18 +153,21 @@ process blast2 {
 		val Threads
 		file data2
 		val output
+		val refbase
+		val alignment
+		val maxseqs
 
 	output:	
 		
 		stdout
 
 	script:
-		"""
+	"""
 		module load swset/2018.05
 		module load gcc/7.3.0
 		module load blast-plus/2.10.0-py27
 		
-		blastn -num_threads "${Threads}" -query "${data2}" -out "${output}" -db 16S_ribosomal_RNA -outfmt "6 qseqid sscinames qlen length pident bitscore" -max_target_seqs 5 
+		blastn -num_threads "${Threads}" -query "${data2}" -out "${output}" -db "${refbase}" -outfmt "${alignment}" -max_target_seqs "${maxseqs}" 
 		"""
 }
 
@@ -225,10 +231,11 @@ workflow {
 	TrimSequences_SE (params.Threads, params.longread, params.samplename, params.minlenSE) 
 	Unicycler_Hybrid_Assembly (TrimSequences_PE.out[0], TrimSequences_PE.out[1], TrimSequences_SE.out[0], params.Threads, params.output) 
 	quastRun (Unicycler_Hybrid_Assembly.out.contigs, params.output, params.Threads, params.Read_1, params.Read_2, params.longread) 
-	blast1 (params.Threads, Unicycler_Hybrid_Assembly.out.contigs, params.blast_result_1) 
+	blast1 (params.Threads, Unicycler_Hybrid_Assembly.out.contigs, params.blast_result_1, params.database1, params.format1, params.maxseqs1) 
 	 fastani (params.Threads, Unicycler_Hybrid_Assembly.out.contigs, params.ref_genome, params.fastani_output_file) 
 	
 	barrnap (params.kingdom, params.Threads, Unicycler_Hybrid_Assembly.out.contigs, params.barrnap_output_file) 
 	foo (barrnap.out.barrnap_output)
-	blast2 (params.Threads, foo.out.RNA_output_edit, params.blast_result_2) 
+	blast2 (params.Threads, foo.out.RNA_output_edit, params.blast_result_2, params.database1, params.format1, params.m
+axseqs1) 
 	}
