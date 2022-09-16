@@ -10,7 +10,8 @@ An automated genome analysis workflow to identify bacterial isolates from infect
   </summary>
   <br>
   a. Nextflow requires Bash 3.2 or later and Java 11 till 18 to be installed on the cluster
-  
+  </br>
+  </br>
   b. Depending on the cluster program management loader, module loading can vary. An example of checking for module nextflow on SLURM (Simple Linux Utility for Resource Management) is the following:
   
   ```bash scripting
@@ -41,7 +42,42 @@ An automated genome analysis workflow to identify bacterial isolates from infect
   </summary>
   <br>
   These need to also be installed on the cluster:
-    a. 
+    </br>
+    a. FastQC
+    </br>
+    b. Timmomatic
+    </br>
+    c. Unicycler
+    </br>
+    d. QUAST
+    </br>
+    e. BLAST
+    </br>
+    f. FastANI
+    </br>
+    g. Barrnap
+    
+</details>
+
+# Steps to run
+
+<details>
+  <summary>
+    Clone this repository
+  </summary>
+  <br>
+  a. Make sure git is installed by typing the following in the command prompt:
+  
+    ```bash scripting
+      $ git --version
+    ```
+  
+  b. Then clone this repository:
+  
+    ```bash scripting
+      $ git clone https://github.com/WyoARCC-Research/MicrobialIdentificationNextflowPipeline.git
+    ```
+</details>
 
 
 
