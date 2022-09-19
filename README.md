@@ -68,17 +68,38 @@ An automated genome analysis workflow to identify bacterial isolates from infect
   <br>
   a. Make sure git is installed by typing the following in the command prompt:
   
-    ```bash scripting
-      $ git --version
-    ```
+  ```bash scripting
+    $ git --version
+  ```
   
   b. Then clone this repository:
   
-    ```bash scripting
-      $ git clone https://github.com/WyoARCC-Research/MicrobialIdentificationNextflowPipeline.git
-    ```
+  ```bash scripting
+    $ git clone https://github.com/WyoARCC-Research/MicrobialIdentificationNextflowPipeline.git
+  ```
 </details>
 
+<details>
+  <summary>
+    Load the nextflow module
+  </summary>
+  <br>
+  Depending on the cluster program management loader, module loading can vary. An example of loading the nextflow module on SLURM (Simple Linux Utility for Resource Management) is the following:
+  
+  ```bash scripting
+    $ module load nextflow
+  ```
+</details>
+
+<details>
+  <summary>
+    Within the nextflow.config
+  </summary>
+  <br>
+  a. Open the nextflow.config file, cloned from the repository, in a text editor.
+  </br>
+  </br>
+  b.
 
 
   
