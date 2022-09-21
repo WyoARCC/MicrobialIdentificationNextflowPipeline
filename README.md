@@ -93,13 +93,30 @@ An automated genome analysis workflow to identify bacterial isolates from infect
 
 <details>
   <summary>
-    Within the nextflow.config
+    Parameterize within the nextflow.config
   </summary>
   <br>
   a. Open the nextflow.config file, cloned from the repository, in a text editor.
   </br>
   </br>
-  b.
-
-
+  b. Specify the location of the input sample files and the location for output by changing the following in the nextflow.config:
+  
+  ```nextflow
+    /** Input/Output Directory for WF */
+            Input_Directory = "/project/arcc-students/nextflow"
+            output          = "${Input_Directory}/output" 
+  ```
+  
+  c. Then change program specific parameters which can be found in blocks of code such as the following, for the program Trimmomatic as an example:
+  
+  ```nextflow
+    /** Trimmomatic Parameters */
+            trimmomatic = "trimmomatic"
+            adapters    = "/opt/Trimmomatic/Trimmomatic-0.39/adapters/TruSeq3-PE.fa"
+            headcrop    = 10		/** HEADCROP value for Pair Ended Trimmomatic run */
+            trailing    = 20		/** TRAILING value for Pair Ended Trimmomatic run */
+            minlenPE    = 60		/** MINLEN value for Pair Ended Trimmomatic run */
+            minlenSE    = 200		/** MINLEN value for Single Ended Trimmomatic run */
+  ```
+</details>
   
