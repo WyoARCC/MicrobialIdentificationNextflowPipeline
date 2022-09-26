@@ -120,3 +120,33 @@ An automated genome analysis workflow to identify bacterial isolates from infect
   ```
 </details>
   
+<details>
+  <summary>
+    Defining the cluster for execution
+  </summary>
+  <br>
+  a. Within the nextflow.config file there is a section for definig the cluster options inorder to run. It looks like the following:
+  
+  ```nextflow
+    /** Execution params */
+  	        Executor        = 'slurm'
+  	        Cpus            = 16
+  	        Walltime        = '7 hours'
+  	        ExecutorAccount = 'arcc-students'
+
+    }
+
+
+    profiles {
+       teton {
+            process.executor        = params.Executor
+            process.clusterOptions  = "-A ${params.ExecutorAccount}"
+            process.cpus            = params.Cpus
+            process.time            = params.Walltime
+	          /** process.memory      = '1500GB' */
+          	process.queue           = 'moran'
+       }
+    }
+  ```
+  
+  b. Change the name of the cluster, "teton", to the respective name of your cluster. 
