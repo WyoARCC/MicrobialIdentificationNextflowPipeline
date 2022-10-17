@@ -43,6 +43,7 @@ An automated genome analysis workflow to identify bacterial isolates from infect
   <br>
   These need to also be installed on the cluster:
     </br>
+    <br>
     a. FastQC
     </br>
     b. Timmomatic
@@ -56,6 +57,8 @@ An automated genome analysis workflow to identify bacterial isolates from infect
     f. FastANI
     </br>
     g. Barrnap
+    <br>
+    More information on these can be found at [here](# helpful-links)
     
 </details>
 
@@ -89,6 +92,8 @@ An automated genome analysis workflow to identify bacterial isolates from infect
   ```bash scripting
     $ module load nextflow
   ```
+
+  More information on how to use SLURM can be found [here](https://slurm.schedmd.com/)
 </details>
 
 <details>
@@ -150,3 +155,6 @@ An automated genome analysis workflow to identify bacterial isolates from infect
   ```
   
   b. Change the name of the cluster, "teton", to the respective name of your cluster. 
+  </details>
+
+## Helpful Links
