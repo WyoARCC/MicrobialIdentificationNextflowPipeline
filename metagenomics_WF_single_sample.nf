@@ -71,6 +71,12 @@ process TrimSequences_SE {
 
         script:
             	"""
+		module load nextflow
+                module load swset/2018.05
+                module load gcc/7.3.0
+                module load trimmomatic/0.36
+                module load miniconda3
+                conda activate /pfs/tc1/project/arcc-students/bio2
 
                 trimmomatic SE -threads ${Threads} -phred33 ${LongRead} ${SampleName}longtrim.fastq MINLEN:${minlenSE}
 
@@ -116,6 +122,8 @@ process quastRun {
 	
 	script:
 		"""
+		module load miniconda3
+                conda activate /pfs/tc1/project/arcc-students/bio2
 
 		quast ${contigs} -o ${output} -t ${Threads} -1 ${shortRead1} -2 ${shortRead2} --nanopore ${longRead}
 		
@@ -142,7 +150,7 @@ process blast1 {
 		module load gcc/7.3.0
 		module load blast-plus/2.10.0-py27
 		
-		blastn -num_threads "${Threads}" -query "${data}" -out "${output}" -db "${refbase} -outfmt "${alignment} -max_target_seqs "${maxseqs}"
+		blastn -num_threads "${Threads}" -query "${data}" -out "${output}" -db "${refbase}" -outfmt "${alignment}" -max_target_seqs "${maxseqs}"
 		"""
 }
 
@@ -236,6 +244,5 @@ workflow {
 	
 	barrnap (params.kingdom, params.Threads, Unicycler_Hybrid_Assembly.out.contigs, params.barrnap_output_file) 
 	foo (barrnap.out.barrnap_output)
-	blast2 (params.Threads, foo.out.RNA_output_edit, params.blast_result_2, params.database1, params.format1, params.m
-axseqs1) 
+	blast2 (params.Threads, foo.out.RNA_output_edit, params.blast_result_2, params.database1, params.format1, params.maxseqs1) 
 	}
