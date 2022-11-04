@@ -58,7 +58,7 @@ An automated genome analysis workflow to identify bacterial isolates from infect
     </br>
     g. Barrnap
     <br>
-    More information on these can be found at [here](# helpful-links)
+    More information on these can be found at [here](#helpful-links)
     
 </details>
 
